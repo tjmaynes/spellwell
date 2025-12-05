@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { Word, LetterState, Difficulty } from '../types';
+import type { Word, Difficulty } from '../types';
 import HistoryPanel from './HistoryPanel';
 
 interface SpellingGameProps {
@@ -68,7 +68,7 @@ export default function SpellingGame({ word, difficulty, onComplete, onBack, cor
     setCurrentGuess('');
   };
 
-  const getLetterState = (letter: string, index: number): LetterState['state'] => {
+  const getLetterState = (letter: string, index: number): 'correct' | 'present' | 'absent' => {
     const targetWord = word.word.toLowerCase();
 
     if (targetWord[index] === letter) {
@@ -86,15 +86,24 @@ export default function SpellingGame({ word, difficulty, onComplete, onBack, cor
     const letters = guess.split('');
 
     return (
-      <div key={rowIndex} className="guess-row">
-        {letters.map((letter, i) => (
-          <div
-            key={i}
-            className={`letter-box ${getLetterState(letter, i)}`}
-          >
-            {letter.toUpperCase()}
-          </div>
-        ))}
+      <div key={rowIndex} className="flex gap-2 justify-center">
+        {letters.map((letter, i) => {
+          const state = getLetterState(letter, i);
+          const stateClasses = {
+            correct: 'bg-green-400 border-green-400 text-[#1a1a1a]',
+            present: 'bg-yellow-400 border-yellow-400 text-[#1a1a1a]',
+            absent: 'bg-gray-600 border-gray-600 text-white/50'
+          };
+
+          return (
+            <div
+              key={i}
+              className={`w-16 h-16 flex items-center justify-center text-4xl font-bold border-2 rounded-lg transition-all duration-300 ${stateClasses[state]}`}
+            >
+              {letter.toUpperCase()}
+            </div>
+          );
+        })}
       </div>
     );
   };
@@ -104,14 +113,20 @@ export default function SpellingGame({ word, difficulty, onComplete, onBack, cor
     const emptySlots = wordLength - letters.length;
 
     return (
-      <div className="guess-row current">
+      <div className="flex gap-2 justify-center">
         {letters.map((letter, i) => (
-          <div key={i} className="letter-box active">
+          <div
+            key={i}
+            className="w-16 h-16 flex items-center justify-center text-4xl font-bold border-2 border-primary rounded-lg bg-primary/10 animate-pulse"
+          >
             {letter.toUpperCase()}
           </div>
         ))}
         {Array.from({ length: emptySlots }).map((_, i) => (
-          <div key={`empty-${i}`} className="letter-box empty"></div>
+          <div
+            key={`empty-${i}`}
+            className="w-16 h-16 flex items-center justify-center text-4xl font-bold border-2 border-white/20 rounded-lg bg-white/5"
+          />
         ))}
       </div>
     );
@@ -119,43 +134,54 @@ export default function SpellingGame({ word, difficulty, onComplete, onBack, cor
 
   const renderEmptyRow = (index: number) => {
     return (
-      <div key={`empty-row-${index}`} className="guess-row">
+      <div key={`empty-row-${index}`} className="flex gap-2 justify-center">
         {Array.from({ length: wordLength }).map((_, i) => (
-          <div key={i} className="letter-box empty"></div>
+          <div
+            key={i}
+            className="w-16 h-16 flex items-center justify-center text-4xl font-bold border-2 border-white/10 rounded-lg bg-white/5"
+          />
         ))}
       </div>
     );
   };
 
   return (
-    <div className="game-container">
-      <div className="game-header">
-        <button className="back-button" onClick={onBack}>← Back</button>
-        <h2>Word Spelling</h2>
-        <div className="attempts-counter">
+    <div className="max-w-[800px] mx-auto">
+      <div className="flex justify-between items-center mb-8">
+        <button
+          className="px-6 py-3 bg-white/10 border-2 border-white/20 rounded-lg text-white font-semibold transition-all duration-200 hover:bg-white/15 hover:-translate-y-0.5"
+          onClick={onBack}
+        >
+          ← Back
+        </button>
+        <h2 className="text-3xl font-bold flex-1 text-center">Word Spelling</h2>
+        <div className="px-6 py-3 bg-white/10 rounded-lg font-semibold">
           {guesses.length}/{maxAttempts}
         </div>
       </div>
 
       {difficulty === 'easy' ? (
-        <div className="definition-hint">
+        <div className="bg-primary/10 border-2 border-primary/30 rounded-xl p-6 mb-8 text-center text-lg leading-relaxed">
           <strong>Definition:</strong> {word.definition}
         </div>
       ) : (
-        <div className="hint-container">
+        <div className="text-center mb-8">
           {!showHint ? (
-            <button className="hint-button" onClick={() => setShowHint(true)}>
+            <button
+              className="px-8 py-3.5 bg-white/10 border-2 border-white/20 rounded-xl text-white font-semibold transition-all duration-200 hover:bg-white/15 hover:-translate-y-0.5 hover:border-primary"
+              onClick={() => setShowHint(true)}
+            >
               💡 Show Hint
             </button>
           ) : (
-            <div className="definition-hint revealed">
+            <div className="bg-primary/10 border-2 border-primary/30 rounded-xl p-6 text-lg leading-relaxed animate-in fade-in slide-in-from-top-2 duration-500">
               <strong>Definition:</strong> {word.definition}
             </div>
           )}
         </div>
       )}
 
-      <div className="spelling-board">
+      <div className="flex flex-col gap-3 my-8 p-8 bg-white/5 border-2 border-white/10 rounded-2xl">
         {guesses.map((guess, i) => renderGuessRow(guess, i))}
         {!gameOver && guesses.length < maxAttempts && renderCurrentGuessRow()}
         {Array.from({ length: Math.max(0, maxAttempts - guesses.length - (gameOver ? 0 : 1)) }).map((_, i) =>
@@ -164,23 +190,27 @@ export default function SpellingGame({ word, difficulty, onComplete, onBack, cor
       </div>
 
       {gameOver && (
-        <div className={`result-message ${won ? 'win' : 'lose'}`}>
+        <div className={`border-2 rounded-2xl p-8 my-8 text-center animate-in slide-in-from-bottom-5 duration-500 ${
+          won
+            ? 'bg-green-400/10 border-green-400'
+            : 'bg-red-400/10 border-red-400'
+        }`}>
           {won ? (
             <>
-              <h3>Excellent! 🎉</h3>
-              <p>You got it in {guesses.length} {guesses.length === 1 ? 'try' : 'tries'}!</p>
+              <h3 className="text-4xl font-bold mb-2 text-green-400">Excellent! 🎉</h3>
+              <p className="text-xl text-gray-300">You got it in {guesses.length} {guesses.length === 1 ? 'try' : 'tries'}!</p>
             </>
           ) : (
             <>
-              <h3>Good try!</h3>
-              <p>The word was: <strong>{word.word}</strong></p>
+              <h3 className="text-4xl font-bold mb-2 text-red-400">Good try!</h3>
+              <p className="text-xl text-gray-300">The word was: <strong>{word.word}</strong></p>
             </>
           )}
         </div>
       )}
 
       {!gameOver && (
-        <div className="game-instructions">
+        <div className="text-center text-gray-400 mt-4">
           Type your guess and press Enter
         </div>
       )}

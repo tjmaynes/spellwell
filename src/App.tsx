@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
 import { GameProvider } from './context/GameContext';
 import HomePage from './pages/HomePage';
 import GamePage from './pages/GamePage';
@@ -10,7 +9,7 @@ function App() {
   return (
     <GameProvider>
       <BrowserRouter>
-        <div className="app">
+        <div className="min-h-screen p-8 max-w-[1200px] mx-auto">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/game/:mode/:difficulty" element={<GamePage />} />

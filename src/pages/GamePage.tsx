@@ -130,10 +130,10 @@ export default function GamePage() {
   };
 
   return (
-    <div className="game-view">
-      <div className="game-stats">
-        <div className="stat">Score: {score}</div>
-        <div className="stat">Streak: {streak} 🔥</div>
+    <div>
+      <div className="flex gap-8 justify-center mb-8 text-xl font-semibold">
+        <div className="px-6 py-3 bg-white/10 rounded-lg">Score: {score}</div>
+        <div className="px-6 py-3 bg-white/10 rounded-lg">Streak: {streak} 🔥</div>
       </div>
       {renderGame()}
     </div>

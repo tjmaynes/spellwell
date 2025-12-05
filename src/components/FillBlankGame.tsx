@@ -43,15 +43,25 @@ export default function FillBlankGame({ word, difficulty, onComplete, onBack, co
 
   const renderSentence = () => {
     if (!word.exampleSentence) {
-      return <p className="sentence">No example sentence available.</p>;
+      return <p className="text-xl leading-loose">No example sentence available.</p>;
     }
 
     const parts = word.exampleSentence.split('_');
 
+    let blankClasses = 'inline-block min-w-[8rem] px-4 py-2 mx-2 bg-white/10 border-2 border-white/30 rounded-lg font-bold capitalize';
+
+    if (revealed) {
+      if (selectedWord === word.word) {
+        blankClasses = 'inline-block min-w-[8rem] px-4 py-2 mx-2 bg-green-400 border-2 border-green-400 rounded-lg font-bold capitalize text-[#1a1a1a]';
+      } else {
+        blankClasses = 'inline-block min-w-[8rem] px-4 py-2 mx-2 bg-red-400 border-2 border-red-400 rounded-lg font-bold capitalize text-[#1a1a1a]';
+      }
+    }
+
     return (
-      <p className="sentence">
+      <p className="text-xl leading-loose">
         {parts[0]}
-        <span className={`blank ${revealed ? (selectedWord === word.word ? 'correct' : 'incorrect') : ''}`}>
+        <span className={blankClasses}>
           {selectedWord || '______'}
         </span>
         {parts[1]}
@@ -64,48 +74,60 @@ export default function FillBlankGame({ word, difficulty, onComplete, onBack, co
   }
 
   return (
-    <div className="game-container">
-      <div className="game-header">
-        <button className="back-button" onClick={onBack}>← Back</button>
-        <h2>Fill in the Blank</h2>
+    <div className="max-w-[800px] mx-auto">
+      <div className="flex justify-between items-center mb-8">
+        <button
+          className="px-6 py-3 bg-white/10 border-2 border-white/20 rounded-lg text-white font-semibold transition-all duration-200 hover:bg-white/15 hover:-translate-y-0.5"
+          onClick={onBack}
+        >
+          ← Back
+        </button>
+        <h2 className="text-3xl font-bold flex-1 text-center">Fill in the Blank</h2>
+        <div className="w-24"></div>
       </div>
 
-      <div className="fillblank-card">
-        <h3>Complete the sentence:</h3>
-        <div className="sentence-container">
+      <div className="bg-white/5 border-2 border-white/10 rounded-2xl p-10 mb-8 text-center">
+        <h3 className="text-2xl font-semibold mb-6 text-gray-300">Complete the sentence:</h3>
+        <div className="my-6">
           {renderSentence()}
         </div>
       </div>
 
       {difficulty === 'easy' ? (
-        <div className="definition-hint">
+        <div className="bg-primary/10 border-2 border-primary/30 rounded-xl p-6 mb-8 text-center text-lg leading-relaxed">
           <strong>Hint:</strong> {word.definition}
         </div>
       ) : (
-        <div className="hint-container">
+        <div className="text-center mb-8">
           {!showHint ? (
-            <button className="hint-button" onClick={() => setShowHint(true)}>
+            <button
+              className="px-8 py-3.5 bg-white/10 border-2 border-white/20 rounded-xl text-white font-semibold transition-all duration-200 hover:bg-white/15 hover:-translate-y-0.5 hover:border-primary"
+              onClick={() => setShowHint(true)}
+            >
               💡 Show Hint
             </button>
           ) : (
-            <div className="definition-hint revealed">
+            <div className="bg-primary/10 border-2 border-primary/30 rounded-xl p-6 text-lg leading-relaxed animate-in fade-in slide-in-from-top-2 duration-500">
               <strong>Hint:</strong> {word.definition}
             </div>
           )}
         </div>
       )}
 
-      <div className="options-grid">
+      <div className="grid grid-cols-2 gap-4 my-8">
         {options.map((option) => {
           const isSelected = selectedWord === option;
           const isCorrect = option === word.word;
 
-          let className = 'option-button';
+          let className = 'p-6 bg-white/5 border-2 border-white/20 rounded-xl text-white text-xl font-semibold cursor-pointer transition-all duration-200 hover:bg-white/10 hover:-translate-y-0.5 hover:border-primary capitalize';
+
           if (revealed) {
             if (isCorrect) {
-              className += ' correct';
+              className = 'p-6 bg-green-400 border-2 border-green-400 rounded-xl text-[#1a1a1a] text-xl font-semibold capitalize animate-in zoom-in duration-500';
             } else if (isSelected && !isCorrect) {
-              className += ' incorrect';
+              className = 'p-6 bg-red-400 border-2 border-red-400 rounded-xl text-[#1a1a1a] text-xl font-semibold capitalize animate-in shake duration-500';
+            } else {
+              className = 'p-6 bg-white/5 border-2 border-white/20 rounded-xl text-white text-xl font-semibold cursor-not-allowed opacity-50 capitalize';
             }
           }
 
@@ -123,16 +145,20 @@ export default function FillBlankGame({ word, difficulty, onComplete, onBack, co
       </div>
 
       {revealed && (
-        <div className={`result-message ${selectedWord === word.word ? 'win' : 'lose'}`}>
+        <div className={`border-2 rounded-2xl p-8 my-8 text-center animate-in slide-in-from-bottom-5 duration-500 ${
+          selectedWord === word.word
+            ? 'bg-green-400/10 border-green-400'
+            : 'bg-red-400/10 border-red-400'
+        }`}>
           {selectedWord === word.word ? (
             <>
-              <h3>Perfect! 🎉</h3>
-              <p>You completed the sentence correctly!</p>
+              <h3 className="text-4xl font-bold mb-2 text-green-400">Perfect! 🎉</h3>
+              <p className="text-xl text-gray-300">You completed the sentence correctly!</p>
             </>
           ) : (
             <>
-              <h3>Not quite!</h3>
-              <p>The correct word was: <strong>{word.word}</strong></p>
+              <h3 className="text-4xl font-bold mb-2 text-red-400">Not quite!</h3>
+              <p className="text-xl text-gray-300">The correct word was: <strong>{word.word}</strong></p>
             </>
           )}
         </div>
