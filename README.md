@@ -1,73 +1,227 @@
-# React + TypeScript + Vite
+# 📚 SpellWell
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, interactive vocabulary learning application that helps users improve their spelling and word knowledge through engaging games and challenges.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🎮 Multiple Game Modes
 
-## React Compiler
+- **Word Spelling** 🔤 - Wordle-style game where you guess hidden words letter by letter
+- **Definition Match** 📚 - Match words with their correct definitions
+- **Fill in the Blank** ✏️ - Complete sentences with the right word
+- **Anagram Solver** 🔀 - Unscramble letters to form words
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🎯 Difficulty Levels
 
-## Expanding the ESLint configuration
+- **Easy** - Perfect for beginners, includes hints and definitions
+- **Medium** - Moderate challenge with optional hints
+- **Hard** - No hints, test your vocabulary mastery
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🌓 Theme Support
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Dark Mode** - Easy on the eyes with a beautiful purple gradient
+- **Light Mode** - Clean and bright interface
+- Toggle seamlessly between themes with persistent preferences
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 📊 Progress Tracking
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Track your score and streaks
+- View detailed statistics by difficulty and game mode
+- Review words you've mastered
+- Identify words that need more practice
+
+### 🎨 Modern UI/UX
+
+- Smooth animations and transitions
+- Responsive design for all devices
+- Beautiful gradient effects and color schemes
+- Intuitive navigation with React Router
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js** (v18 or higher)
+- **pnpm** (recommended) or npm/yarn
+- **just** (optional, for task running)
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd spellwell
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Start the development server**
+
+   ```bash
+   pnpm dev
+   # or
+   just dev
+   ```
+
+4. **Open your browser**
+   Navigate to `http://localhost:5173`
+
+## 🛠️ Tech Stack
+
+### Core
+
+- **React 19** - UI framework with latest features
+- **TypeScript** - Type-safe development
+- **Vite 7** - Fast build tool and dev server
+- **React Router 7** - Client-side routing
+
+### Styling
+
+- **Tailwind CSS 4** - Utility-first CSS framework
+- **CSS Variables** - Dynamic theming support
+- **Custom Gradients** - Beautiful purple-themed design
+
+### Code Quality
+
+- **ESLint** - JavaScript/TypeScript linting
+- **Prettier** - Code formatting
+- **TypeScript ESLint** - TypeScript-specific rules
+
+### State Management
+
+- **React Context** - Theme and game state management
+- **LocalStorage** - Persistent theme and statistics
+
+## 📜 Available Scripts
+
+### Using pnpm
+
+```bash
+pnpm dev          # Start development server
+pnpm build        # Build for production
+pnpm preview      # Preview production build
+pnpm lint         # Run ESLint
+pnpm lint:fix     # Fix ESLint issues
+pnpm format       # Format code with Prettier
+pnpm format:check # Check code formatting
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Using just
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+just              # List all available commands
+just dev          # Start development server
+just build        # Build for production
+just preview      # Preview production build
+just lint         # Run ESLint
+just lint-fix     # Fix ESLint issues
+just format       # Format code with Prettier
+just format-check # Check code formatting
+just check        # Run all checks (format + lint)
+just fix          # Fix all issues (format + lint)
+just typecheck    # Run TypeScript type checking
+just validate     # Full validation (typecheck + format + lint)
+just clean        # Remove build artifacts
+just reinstall    # Clean reinstall dependencies
 ```
+
+## 📁 Project Structure
+
+```text
+spellwell/
+├── src/
+│   ├── components/     # React components
+│   │   ├── AnagramGame.tsx
+│   │   ├── DefinitionGame.tsx
+│   │   ├── FillBlankGame.tsx
+│   │   ├── SpellingGame.tsx
+│   │   ├── HistoryPanel.tsx
+│   │   ├── StatisticsView.tsx
+│   │   └── ThemeToggle.tsx
+│   ├── context/        # React context providers
+│   │   ├── GameContext.tsx
+│   │   └── ThemeContext.tsx
+│   ├── data/           # Word lists and data
+│   │   └── words.ts
+│   ├── pages/          # Page components
+│   │   ├── HomePage.tsx
+│   │   ├── GamePage.tsx
+│   │   ├── CompletionPage.tsx
+│   │   └── StatsPage.tsx
+│   ├── utils/          # Utility functions
+│   │   └── statistics.ts
+│   ├── types.ts        # TypeScript types
+│   ├── App.tsx         # Root component
+│   ├── main.tsx        # Entry point
+│   └── index.css       # Global styles
+├── public/             # Static assets
+├── .prettierrc         # Prettier configuration
+├── eslint.config.js    # ESLint configuration
+├── tsconfig.json       # TypeScript configuration
+├── vite.config.ts      # Vite configuration
+├── Justfile            # Task runner commands
+└── package.json        # Dependencies and scripts
+```
+
+## 🎮 How to Play
+
+1. **Choose a Game Mode** - Select from four different word games
+2. **Pick a Difficulty** - Start with Easy and work your way up
+3. **Play the Game** - Follow the instructions for each game type
+4. **Track Your Progress** - View your statistics and improve over time
+
+### Game Rules
+
+#### Word Spelling 🔤
+
+- Guess the hidden word in 6 tries
+- Green = correct letter in correct position
+- Yellow = correct letter in wrong position
+- Gray = letter not in word
+
+#### Definition Match 📚
+
+- Read the definition
+- Choose the correct word from 4 options
+- Learn new vocabulary
+
+#### Fill in the Blank ✏️
+
+- Complete the sentence with the right word
+- Context clues help you learn
+- Hints available on Easy mode
+
+#### Anagram Solver 🔀
+
+- Unscramble the letters to form a word
+- Tap letters to build your answer
+- Shuffle for a new arrangement
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 🙏 Acknowledgments
+
+- Built with React, TypeScript, and Vite
+- Styled with Tailwind CSS
+- Inspired by word games like Wordle and vocabulary learning apps
+
+---
+
+**Happy Learning!** 🎉
