@@ -100,7 +100,7 @@ interface CommonGameProps {
 
 ### Data Flow
 
-```
+```text
 GamePage (Orchestrator)
 ├── Fetches word via getRandomWordExcluding()
 ├── Renders game component based on :mode param

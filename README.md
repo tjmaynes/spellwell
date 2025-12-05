@@ -50,7 +50,7 @@ A modern, interactive vocabulary learning application that helps users improve t
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/tjmaynes/spellwell.git
    cd spellwell
    ```
 

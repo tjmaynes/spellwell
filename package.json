@@ -3,6 +3,15 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "description": "A modern vocabulary learning application with multiple game modes",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tjmaynes/spellwell.git"
+  },
+  "homepage": "https://github.com/tjmaynes/spellwell#readme",
+  "bugs": {
+    "url": "https://github.com/tjmaynes/spellwell/issues"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
