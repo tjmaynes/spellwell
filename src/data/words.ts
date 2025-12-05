@@ -157,8 +157,30 @@ export function getRandomWord(difficulty: 'easy' | 'medium' | 'hard'): Word {
   return filtered[Math.floor(Math.random() * filtered.length)];
 }
 
+export function getRandomWordExcluding(difficulty: 'easy' | 'medium' | 'hard', excludeWords: Word[]): Word | null {
+  const excludedWordStrings = excludeWords.map(w => w.word.toLowerCase());
+  const filtered = vocabulary.filter(
+    w => w.difficulty === difficulty && !excludedWordStrings.includes(w.word.toLowerCase())
+  );
+
+  if (filtered.length === 0) {
+    return null;
+  }
+
+  return filtered[Math.floor(Math.random() * filtered.length)];
+}
+
 export function getRandomWords(difficulty: 'easy' | 'medium' | 'hard', count: number): Word[] {
   const filtered = vocabulary.filter(w => w.difficulty === difficulty);
+  const shuffled = [...filtered].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, Math.min(count, shuffled.length));
+}
+
+export function getRandomWordsExcluding(difficulty: 'easy' | 'medium' | 'hard', count: number, excludeWords: Word[]): Word[] {
+  const excludedWordStrings = excludeWords.map(w => w.word.toLowerCase());
+  const filtered = vocabulary.filter(
+    w => w.difficulty === difficulty && !excludedWordStrings.includes(w.word.toLowerCase())
+  );
   const shuffled = [...filtered].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, Math.min(count, shuffled.length));
 }

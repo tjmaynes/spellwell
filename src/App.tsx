@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import type { GameMode, Difficulty, Word } from './types';
-import { getRandomWord } from './data/words';
+import { getRandomWord, getRandomWordExcluding } from './data/words';
 import { updateStatistics } from './utils/statistics';
 import ModeSelection from './components/ModeSelection';
 import SpellingGame from './components/SpellingGame';
@@ -19,11 +19,13 @@ function App() {
   const [currentWord, setCurrentWord] = useState<Word | null>(null);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
+  const [correctHistory, setCorrectHistory] = useState<Word[]>([]);
 
   const handleModeSelect = (mode: GameMode, difficulty: Difficulty) => {
     setCurrentMode(mode);
     setCurrentDifficulty(difficulty);
     setCurrentWord(getRandomWord(difficulty));
+    setCorrectHistory([]);
     setView('game');
   };
 
@@ -43,11 +45,22 @@ function App() {
         points,
         correct ? undefined : currentWord.word
       );
+
+      if (correct) {
+        setCorrectHistory(prev => [...prev, currentWord]);
+      }
     }
 
     setTimeout(() => {
       if (currentDifficulty) {
-        setCurrentWord(getRandomWord(currentDifficulty));
+        const wordsToExclude = correct ? [...correctHistory, currentWord!] : correctHistory;
+        const nextWord = getRandomWordExcluding(currentDifficulty, wordsToExclude);
+
+        if (nextWord) {
+          setCurrentWord(nextWord);
+        } else {
+          setCurrentWord(null);
+        }
       }
     }, 100);
   };
@@ -57,6 +70,7 @@ function App() {
     setCurrentMode(null);
     setCurrentDifficulty(null);
     setCurrentWord(null);
+    setCorrectHistory([]);
   };
 
   const handleViewStats = () => {
@@ -68,7 +82,29 @@ function App() {
   };
 
   const renderGame = () => {
-    if (!currentWord || !currentMode || !currentDifficulty) return null;
+    if (!currentMode || !currentDifficulty) return null;
+
+    if (!currentWord) {
+      return (
+        <div className="completion-message">
+          <h2>🎉 Congratulations! 🎉</h2>
+          <p>You've completed all words for this difficulty level!</p>
+          <div className="completion-stats">
+            <div className="completion-stat">
+              <div className="stat-value">{correctHistory.length}</div>
+              <div className="stat-label">Words Mastered</div>
+            </div>
+            <div className="completion-stat">
+              <div className="stat-value">{score}</div>
+              <div className="stat-label">Total Score</div>
+            </div>
+          </div>
+          <button className="back-button" onClick={handleBackToMenu}>
+            Back to Menu
+          </button>
+        </div>
+      );
+    }
 
     switch (currentMode) {
       case 'spelling':
@@ -77,6 +113,7 @@ function App() {
             word={currentWord}
             onComplete={handleGameComplete}
             onBack={handleBackToMenu}
+            correctHistory={correctHistory}
           />
         );
       case 'definition':
@@ -86,6 +123,7 @@ function App() {
             difficulty={currentDifficulty}
             onComplete={handleGameComplete}
             onBack={handleBackToMenu}
+            correctHistory={correctHistory}
           />
         );
       case 'fillblank':
@@ -95,6 +133,7 @@ function App() {
             difficulty={currentDifficulty}
             onComplete={handleGameComplete}
             onBack={handleBackToMenu}
+            correctHistory={correctHistory}
           />
         );
       case 'anagram':

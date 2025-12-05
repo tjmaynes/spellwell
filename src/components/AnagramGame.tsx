@@ -14,6 +14,8 @@ export default function AnagramGame({ word, onComplete, onBack }: AnagramGamePro
 
   useEffect(() => {
     scrambleWord();
+    setUserAnswer([]);
+    setRevealed(false);
   }, [word]);
 
   const scrambleWord = () => {

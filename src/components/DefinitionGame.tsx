@@ -1,24 +1,29 @@
 import { useState, useEffect } from 'react';
 import type { Word } from '../types';
-import { getRandomWords } from '../data/words';
+import { getRandomWordsExcluding } from '../data/words';
+import HistoryPanel from './HistoryPanel';
 
 interface DefinitionGameProps {
   word: Word;
   difficulty: 'easy' | 'medium' | 'hard';
   onComplete: (correct: boolean, score: number) => void;
   onBack: () => void;
+  correctHistory: Word[];
 }
 
-export default function DefinitionGame({ word, difficulty, onComplete, onBack }: DefinitionGameProps) {
+export default function DefinitionGame({ word, difficulty, onComplete, onBack, correctHistory }: DefinitionGameProps) {
   const [options, setOptions] = useState<Word[]>([]);
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
-    const otherWords = getRandomWords(difficulty, 3).filter(w => w.word !== word.word);
+    const wordsToExclude = [...correctHistory, word];
+    const otherWords = getRandomWordsExcluding(difficulty, 3, wordsToExclude);
     const allOptions = [word, ...otherWords].sort(() => Math.random() - 0.5);
     setOptions(allOptions);
-  }, [word, difficulty]);
+    setSelectedWord(null);
+    setRevealed(false);
+  }, [word, difficulty, correctHistory]);
 
   const handleSelect = (selectedWord: string) => {
     if (revealed) return;
@@ -92,6 +97,8 @@ export default function DefinitionGame({ word, difficulty, onComplete, onBack }:
           )}
         </div>
       )}
+
+      <HistoryPanel correctHistory={correctHistory} />
     </div>
   );
 }

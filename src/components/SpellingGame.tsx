@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import type { Word, LetterState } from '../types';
+import HistoryPanel from './HistoryPanel';
 
 interface SpellingGameProps {
   word: Word;
   onComplete: (correct: boolean, score: number) => void;
   onBack: () => void;
+  correctHistory: Word[];
 }
 
-export default function SpellingGame({ word, onComplete, onBack }: SpellingGameProps) {
+export default function SpellingGame({ word, onComplete, onBack, correctHistory }: SpellingGameProps) {
   const maxAttempts = 6;
   const wordLength = word.word.length;
 
@@ -15,6 +17,13 @@ export default function SpellingGame({ word, onComplete, onBack }: SpellingGameP
   const [currentGuess, setCurrentGuess] = useState('');
   const [gameOver, setGameOver] = useState(false);
   const [won, setWon] = useState(false);
+
+  useEffect(() => {
+    setGuesses([]);
+    setCurrentGuess('');
+    setGameOver(false);
+    setWon(false);
+  }, [word]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -158,6 +167,8 @@ export default function SpellingGame({ word, onComplete, onBack }: SpellingGameP
           Type your guess and press Enter
         </div>
       )}
+
+      <HistoryPanel correctHistory={correctHistory} />
     </div>
   );
 }
