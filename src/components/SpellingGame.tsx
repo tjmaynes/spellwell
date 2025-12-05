@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
-import type { Word, LetterState } from '../types';
+import type { Word, LetterState, Difficulty } from '../types';
 import HistoryPanel from './HistoryPanel';
 
 interface SpellingGameProps {
   word: Word;
+  difficulty: Difficulty;
   onComplete: (correct: boolean, score: number) => void;
   onBack: () => void;
   correctHistory: Word[];
 }
 
-export default function SpellingGame({ word, onComplete, onBack, correctHistory }: SpellingGameProps) {
+export default function SpellingGame({ word, difficulty, onComplete, onBack, correctHistory }: SpellingGameProps) {
   const maxAttempts = 6;
   const wordLength = word.word.length;
 
@@ -17,13 +18,15 @@ export default function SpellingGame({ word, onComplete, onBack, correctHistory 
   const [currentGuess, setCurrentGuess] = useState('');
   const [gameOver, setGameOver] = useState(false);
   const [won, setWon] = useState(false);
+  const [showHint, setShowHint] = useState(difficulty === 'easy');
 
   useEffect(() => {
     setGuesses([]);
     setCurrentGuess('');
     setGameOver(false);
     setWon(false);
-  }, [word]);
+    setShowHint(difficulty === 'easy');
+  }, [word, difficulty]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -134,9 +137,23 @@ export default function SpellingGame({ word, onComplete, onBack, correctHistory 
         </div>
       </div>
 
-      <div className="definition-hint">
-        <strong>Definition:</strong> {word.definition}
-      </div>
+      {difficulty === 'easy' ? (
+        <div className="definition-hint">
+          <strong>Definition:</strong> {word.definition}
+        </div>
+      ) : (
+        <div className="hint-container">
+          {!showHint ? (
+            <button className="hint-button" onClick={() => setShowHint(true)}>
+              💡 Show Hint
+            </button>
+          ) : (
+            <div className="definition-hint revealed">
+              <strong>Definition:</strong> {word.definition}
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="spelling-board">
         {guesses.map((guess, i) => renderGuessRow(guess, i))}

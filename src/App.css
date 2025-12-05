@@ -226,6 +226,44 @@
   text-align: center;
 }
 
+.definition-hint.revealed {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hint-container {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.hint-button {
+  padding: 1rem 2rem;
+  background: rgba(102, 126, 234, 0.2);
+  border: 2px solid rgba(102, 126, 234, 0.4);
+  border-radius: 0.75rem;
+  color: #667eea;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hint-button:hover {
+  background: rgba(102, 126, 234, 0.3);
+  border-color: rgba(102, 126, 234, 0.6);
+  transform: translateY(-2px);
+}
+
 .attempts-counter {
   font-weight: 600;
   color: #888;
@@ -672,10 +710,15 @@
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* Completion Message */
+/* Completion Page */
+.completion-page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 .completion-message {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto 3rem;
   text-align: center;
   padding: 3rem 2rem;
   background: rgba(255, 255, 255, 0.05);
@@ -696,6 +739,7 @@
   font-size: 1.2rem;
   color: #888;
   margin-bottom: 2rem;
+  line-height: 1.6;
 }
 
 .completion-stats {
@@ -724,10 +768,93 @@
   font-size: 0.95rem;
 }
 
-.completion-message .back-button {
-  margin-top: 1rem;
+.completion-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primary-button {
   padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 0.75rem;
+  color: white;
   font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+}
+
+.secondary-button {
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.secondary-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.completion-words-review {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  padding: 2rem;
+}
+
+.completion-words-review h3 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #888;
+}
+
+.words-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.word-card {
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.word-card:hover {
+  background: rgba(102, 126, 234, 0.15);
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+}
+
+.word-card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 0.75rem;
+  text-transform: capitalize;
+}
+
+.word-card-definition {
+  color: #aaa;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 /* History Panel */

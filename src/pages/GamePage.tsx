@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import type { GameMode, Difficulty, Word } from '../types';
-import { getRandomWord, getRandomWordExcluding } from '../data/words';
+import { getRandomWordExcluding } from '../data/words';
 import { updateStatistics } from '../utils/statistics';
 import { useGame } from '../context/GameContext';
 import SpellingGame from '../components/SpellingGame';
@@ -69,7 +69,8 @@ export default function GamePage() {
       if (nextWord) {
         setCurrentWord(nextWord);
       } else {
-        setCurrentWord(null);
+        // Navigate to completion page
+        navigate(`/game/${mode}/${difficulty}/complete`);
       }
     }, 100);
   };
@@ -77,34 +78,6 @@ export default function GamePage() {
   const handleBackToMenu = () => {
     navigate('/');
   };
-
-  if (!currentWord && correctHistory.length > 0) {
-    return (
-      <div className="game-view">
-        <div className="game-stats">
-          <div className="stat">Score: {score}</div>
-          <div className="stat">Streak: {streak} 🔥</div>
-        </div>
-        <div className="completion-message">
-          <h2>🎉 Congratulations! 🎉</h2>
-          <p>You've completed all words for this difficulty level!</p>
-          <div className="completion-stats">
-            <div className="completion-stat">
-              <div className="stat-value">{correctHistory.length}</div>
-              <div className="stat-label">Words Mastered</div>
-            </div>
-            <div className="completion-stat">
-              <div className="stat-value">{score}</div>
-              <div className="stat-label">Total Score</div>
-            </div>
-          </div>
-          <button className="back-button" onClick={handleBackToMenu}>
-            Back to Menu
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   if (!currentWord) {
     return <div>Loading...</div>;
@@ -116,6 +89,7 @@ export default function GamePage() {
         return (
           <SpellingGame
             word={currentWord}
+            difficulty={difficulty as Difficulty}
             onComplete={handleGameComplete}
             onBack={handleBackToMenu}
             correctHistory={correctHistory}
@@ -145,6 +119,7 @@ export default function GamePage() {
         return (
           <AnagramGame
             word={currentWord}
+            difficulty={difficulty as Difficulty}
             onComplete={handleGameComplete}
             onBack={handleBackToMenu}
           />

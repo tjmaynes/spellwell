@@ -1,22 +1,25 @@
 import { useState, useEffect } from 'react';
-import type { Word } from '../types';
+import type { Word, Difficulty } from '../types';
 
 interface AnagramGameProps {
   word: Word;
+  difficulty: Difficulty;
   onComplete: (correct: boolean, score: number) => void;
   onBack: () => void;
 }
 
-export default function AnagramGame({ word, onComplete, onBack }: AnagramGameProps) {
+export default function AnagramGame({ word, difficulty, onComplete, onBack }: AnagramGameProps) {
   const [scrambledLetters, setScrambledLetters] = useState<string[]>([]);
   const [userAnswer, setUserAnswer] = useState<string[]>([]);
   const [revealed, setRevealed] = useState(false);
+  const [showHint, setShowHint] = useState(difficulty === 'easy');
 
   useEffect(() => {
     scrambleWord();
     setUserAnswer([]);
     setRevealed(false);
-  }, [word]);
+    setShowHint(difficulty === 'easy');
+  }, [word, difficulty]);
 
   const scrambleWord = () => {
     const letters = word.word.toLowerCase().split('');
@@ -72,9 +75,23 @@ export default function AnagramGame({ word, onComplete, onBack }: AnagramGamePro
         <h2>Anagram Solver</h2>
       </div>
 
-      <div className="definition-hint">
-        <strong>Definition:</strong> {word.definition}
-      </div>
+      {difficulty === 'easy' ? (
+        <div className="definition-hint">
+          <strong>Definition:</strong> {word.definition}
+        </div>
+      ) : (
+        <div className="hint-container">
+          {!showHint ? (
+            <button className="hint-button" onClick={() => setShowHint(true)}>
+              💡 Show Hint
+            </button>
+          ) : (
+            <div className="definition-hint revealed">
+              <strong>Definition:</strong> {word.definition}
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="anagram-board">
         <div className="answer-area">

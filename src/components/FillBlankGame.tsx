@@ -15,6 +15,7 @@ export default function FillBlankGame({ word, difficulty, onComplete, onBack, co
   const [options, setOptions] = useState<string[]>([]);
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const [showHint, setShowHint] = useState(difficulty === 'easy');
 
   useEffect(() => {
     const wordsToExclude = [...correctHistory, word];
@@ -23,6 +24,7 @@ export default function FillBlankGame({ word, difficulty, onComplete, onBack, co
     setOptions(allOptions);
     setSelectedWord(null);
     setRevealed(false);
+    setShowHint(difficulty === 'easy');
   }, [word, difficulty, correctHistory]);
 
   const handleSelect = (selectedWord: string) => {
@@ -75,9 +77,23 @@ export default function FillBlankGame({ word, difficulty, onComplete, onBack, co
         </div>
       </div>
 
-      <div className="definition-hint">
-        <strong>Hint:</strong> {word.definition}
-      </div>
+      {difficulty === 'easy' ? (
+        <div className="definition-hint">
+          <strong>Hint:</strong> {word.definition}
+        </div>
+      ) : (
+        <div className="hint-container">
+          {!showHint ? (
+            <button className="hint-button" onClick={() => setShowHint(true)}>
+              💡 Show Hint
+            </button>
+          ) : (
+            <div className="definition-hint revealed">
+              <strong>Hint:</strong> {word.definition}
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="options-grid">
         {options.map((option) => {
