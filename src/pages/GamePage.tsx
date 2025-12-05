@@ -132,8 +132,18 @@ export default function GamePage() {
   return (
     <div>
       <div className="flex gap-8 justify-center mb-8 text-xl font-semibold">
-        <div className="px-6 py-3 bg-white/10 rounded-lg">Score: {score}</div>
-        <div className="px-6 py-3 bg-white/10 rounded-lg">Streak: {streak} 🔥</div>
+        <div
+          className="px-6 py-3 rounded-lg"
+          style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)' }}
+        >
+          Score: {score}
+        </div>
+        <div
+          className="px-6 py-3 rounded-lg"
+          style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)' }}
+        >
+          Streak: {streak} 🔥
+        </div>
       </div>
       {renderGame()}
     </div>

@@ -41,22 +41,35 @@ export default function CompletionPage() {
   return (
     <div>
       <div className="max-w-[1000px] mx-auto">
-        <div className="max-w-[600px] mx-auto mb-12 text-center p-12 bg-white/5 border-2 border-primary/30 rounded-3xl">
+        <div
+          className="max-w-[600px] mx-auto mb-12 text-center p-12 border-2 border-primary/30 rounded-3xl"
+          style={{ backgroundColor: 'var(--card-bg)' }}
+        >
           <h2 className="text-5xl font-extrabold mb-4 bg-gradient-to-r from-[#667eea] to-[#764ba2] bg-clip-text text-transparent">
             🎉 Congratulations! 🎉
           </h2>
-          <p className="text-xl text-gray-400 mb-8 leading-relaxed">
+          <p className="text-xl mb-8 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
             You've completed all <strong>{getDifficultyLabel()}</strong> words in{' '}
             <strong>{getModeTitle()}</strong>!
           </p>
           <div className="grid grid-cols-2 gap-6 mb-8">
-            <div className="bg-white/5 border-2 border-white/10 rounded-2xl p-6">
+            <div
+              className="border-2 rounded-2xl p-6"
+              style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+            >
               <div className="text-5xl font-extrabold text-primary mb-2">{correctHistory.length}</div>
-              <div className="text-gray-400 text-sm">Words Mastered</div>
+              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                Words Mastered
+              </div>
             </div>
-            <div className="bg-white/5 border-2 border-white/10 rounded-2xl p-6">
+            <div
+              className="border-2 rounded-2xl p-6"
+              style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+            >
               <div className="text-5xl font-extrabold text-primary mb-2">{score}</div>
-              <div className="text-gray-400 text-sm">Total Score</div>
+              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                Total Score
+              </div>
             </div>
           </div>
 
@@ -68,7 +81,18 @@ export default function CompletionPage() {
               🔄 Try Again
             </button>
             <button
-              className="px-8 py-4 bg-white/10 border-2 border-white/20 rounded-xl text-white font-semibold transition-all duration-200 hover:bg-white/15 hover:-translate-y-0.5"
+              className="px-8 py-4 border-2 rounded-xl font-semibold transition-all duration-200 hover:-translate-y-0.5"
+              style={{
+                backgroundColor: 'var(--card-bg)',
+                borderColor: 'var(--card-border)',
+                color: 'var(--text-primary)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--hover-bg)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--card-bg)';
+              }}
               onClick={handleBackToMenu}
             >
               🏠 Back to Menu
@@ -77,8 +101,13 @@ export default function CompletionPage() {
         </div>
 
         {correctHistory.length > 0 && (
-          <div className="bg-white/5 border-2 border-white/10 rounded-3xl p-8">
-            <h3 className="text-center text-3xl font-bold mb-8 text-gray-400">Words You Mastered</h3>
+          <div
+            className="border-2 rounded-3xl p-8"
+            style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+          >
+            <h3 className="text-center text-3xl font-bold mb-8" style={{ color: 'var(--text-secondary)' }}>
+              Words You Mastered
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {correctHistory.map((word, index) => (
                 <div
@@ -86,7 +115,9 @@ export default function CompletionPage() {
                   className="bg-primary/10 border border-primary/20 rounded-xl p-5 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:-translate-y-0.5"
                 >
                   <div className="text-xl font-bold text-primary mb-3 capitalize">{word.word}</div>
-                  <div className="text-gray-400 text-sm leading-relaxed">{word.definition}</div>
+                  <div className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                    {word.definition}
+                  </div>
                 </div>
               ))}
             </div>
