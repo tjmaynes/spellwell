@@ -1,51 +1,59 @@
-import type { Statistics } from '../types';
-import { getStatistics, resetStatistics } from '../utils/statistics';
-import { useState, useEffect } from 'react';
+import type { Statistics } from '../types'
+import { getStatistics, resetStatistics } from '../utils/statistics'
+import { useState, useEffect } from 'react'
 
 interface StatisticsViewProps {
-  onBack: () => void;
+  onBack: () => void
 }
 
 export default function StatisticsView({ onBack }: StatisticsViewProps) {
-  const [stats, setStats] = useState<Statistics>(getStatistics());
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [stats, setStats] = useState<Statistics>(getStatistics())
+  const [showConfirm, setShowConfirm] = useState(false)
 
   useEffect(() => {
-    setStats(getStatistics());
-  }, []);
+    setStats(getStatistics())
+  }, [])
 
   const handleReset = () => {
-    resetStatistics();
-    setStats(getStatistics());
-    setShowConfirm(false);
-  };
+    resetStatistics()
+    setStats(getStatistics())
+    setShowConfirm(false)
+  }
 
   const getTotalCorrect = () => {
-    return stats.correctByDifficulty.easy +
+    return (
+      stats.correctByDifficulty.easy +
       stats.correctByDifficulty.medium +
-      stats.correctByDifficulty.hard;
-  };
+      stats.correctByDifficulty.hard
+    )
+  }
 
   const getTotalIncorrect = () => {
-    return stats.incorrectByDifficulty.easy +
+    return (
+      stats.incorrectByDifficulty.easy +
       stats.incorrectByDifficulty.medium +
-      stats.incorrectByDifficulty.hard;
-  };
+      stats.incorrectByDifficulty.hard
+    )
+  }
 
   const getAccuracy = () => {
-    const total = getTotalCorrect() + getTotalIncorrect();
-    if (total === 0) return 0;
-    return Math.round((getTotalCorrect() / total) * 100);
-  };
+    const total = getTotalCorrect() + getTotalIncorrect()
+    if (total === 0) return 0
+    return Math.round((getTotalCorrect() / total) * 100)
+  }
 
   const getDifficultyColor = (diff: string) => {
     switch (diff) {
-      case 'easy': return 'bg-green-400';
-      case 'medium': return 'bg-yellow-400';
-      case 'hard': return 'bg-red-400';
-      default: return 'bg-gray-400';
+      case 'easy':
+        return 'bg-green-400'
+      case 'medium':
+        return 'bg-yellow-400'
+      case 'hard':
+        return 'bg-red-400'
+      default:
+        return 'bg-gray-400'
     }
-  };
+  }
 
   return (
     <div className="max-w-[900px] mx-auto">
@@ -58,10 +66,10 @@ export default function StatisticsView({ onBack }: StatisticsViewProps) {
             color: 'var(--text-primary)',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'var(--hover-bg)';
+            e.currentTarget.style.backgroundColor = 'var(--hover-bg)'
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'var(--card-bg)';
+            e.currentTarget.style.backgroundColor = 'var(--card-bg)'
           }}
           onClick={onBack}
         >
@@ -79,7 +87,9 @@ export default function StatisticsView({ onBack }: StatisticsViewProps) {
             className="border-2 rounded-2xl p-6 text-center"
             style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
           >
-            <div className="text-5xl font-extrabold text-primary mb-2">{stats.totalGamesPlayed}</div>
+            <div className="text-5xl font-extrabold text-primary mb-2">
+              {stats.totalGamesPlayed}
+            </div>
             <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
               Games Played
             </div>
@@ -122,17 +132,23 @@ export default function StatisticsView({ onBack }: StatisticsViewProps) {
           </h3>
           <div className="flex flex-col gap-4">
             {(['easy', 'medium', 'hard'] as const).map((diff) => {
-              const correct = stats.correctByDifficulty[diff];
-              const incorrect = stats.incorrectByDifficulty[diff];
-              const total = correct + incorrect;
-              const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+              const correct = stats.correctByDifficulty[diff]
+              const incorrect = stats.incorrectByDifficulty[diff]
+              const total = correct + incorrect
+              const percentage = total > 0 ? Math.round((correct / total) * 100) : 0
 
               return (
                 <div key={diff} className="grid grid-cols-[100px_1fr_150px] gap-4 items-center">
-                  <div className="font-semibold capitalize" style={{ color: 'var(--text-primary)' }}>
+                  <div
+                    className="font-semibold capitalize"
+                    style={{ color: 'var(--text-primary)' }}
+                  >
                     {diff}
                   </div>
-                  <div className="h-8 rounded-2xl overflow-hidden" style={{ backgroundColor: 'var(--card-bg)' }}>
+                  <div
+                    className="h-8 rounded-2xl overflow-hidden"
+                    style={{ backgroundColor: 'var(--card-bg)' }}
+                  >
                     <div
                       className={`h-full transition-all duration-500 ${getDifficultyColor(diff)}`}
                       style={{ width: `${percentage}%` }}
@@ -142,7 +158,7 @@ export default function StatisticsView({ onBack }: StatisticsViewProps) {
                     {correct}/{total} ({percentage}%)
                   </div>
                 </div>
-              );
+              )
             })}
           </div>
         </div>
@@ -186,7 +202,10 @@ export default function StatisticsView({ onBack }: StatisticsViewProps) {
             </p>
             <div className="flex flex-wrap gap-2">
               {stats.incorrectWords.slice(0, 20).map((word, index) => (
-                <span key={index} className="px-4 py-2 bg-red-400/20 border border-red-400 rounded-lg font-semibold text-red-400">
+                <span
+                  key={index}
+                  className="px-4 py-2 bg-red-400/20 border border-red-400 rounded-lg font-semibold text-red-400"
+                >
                   {word}
                 </span>
               ))}
@@ -234,10 +253,10 @@ export default function StatisticsView({ onBack }: StatisticsViewProps) {
                   color: 'var(--text-primary)',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--hover-bg)';
+                  e.currentTarget.style.backgroundColor = 'var(--hover-bg)'
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--card-bg)';
+                  e.currentTarget.style.backgroundColor = 'var(--card-bg)'
                 }}
                 onClick={() => setShowConfirm(false)}
               >
@@ -248,5 +267,5 @@ export default function StatisticsView({ onBack }: StatisticsViewProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

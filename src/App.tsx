@@ -1,11 +1,11 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { GameProvider } from './context/GameContext';
-import { ThemeProvider } from './context/ThemeContext';
-import HomePage from './pages/HomePage';
-import GamePage from './pages/GamePage';
-import StatsPage from './pages/StatsPage';
-import CompletionPage from './pages/CompletionPage';
-import ThemeToggle from './components/ThemeToggle';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { GameProvider } from './context/GameContext'
+import { ThemeProvider } from './context/ThemeContext'
+import HomePage from './pages/HomePage'
+import GamePage from './pages/GamePage'
+import StatsPage from './pages/StatsPage'
+import CompletionPage from './pages/CompletionPage'
+import ThemeToggle from './components/ThemeToggle'
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
         </BrowserRouter>
       </GameProvider>
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App

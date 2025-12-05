@@ -1,63 +1,63 @@
-import { useNavigate } from 'react-router-dom';
-import type { GameMode, Difficulty } from '../types';
-import { useGame } from '../context/GameContext';
+import { useNavigate } from 'react-router-dom'
+import type { GameMode, Difficulty } from '../types'
+import { useGame } from '../context/GameContext'
 
 export default function HomePage() {
-  const navigate = useNavigate();
-  const { resetGame } = useGame();
+  const navigate = useNavigate()
+  const { resetGame } = useGame()
 
   const handleModeSelect = (mode: GameMode, difficulty: Difficulty) => {
-    resetGame();
-    navigate(`/game/${mode}/${difficulty}`);
-  };
+    resetGame()
+    navigate(`/game/${mode}/${difficulty}`)
+  }
 
   const handleViewStats = () => {
-    navigate('/stats');
-  };
+    navigate('/stats')
+  }
 
   const modes = [
     {
       id: 'spelling' as GameMode,
       title: 'Word Spelling',
       description: 'Guess the hidden word letter by letter',
-      icon: '🔤'
+      icon: '🔤',
     },
     {
       id: 'definition' as GameMode,
       title: 'Definition Match',
       description: 'Match words with their correct definitions',
-      icon: '📚'
+      icon: '📚',
     },
     {
       id: 'fillblank' as GameMode,
       title: 'Fill in the Blank',
       description: 'Complete sentences with the right word',
-      icon: '✏️'
+      icon: '✏️',
     },
     {
       id: 'anagram' as GameMode,
       title: 'Anagram Solver',
       description: 'Unscramble letters to form words',
-      icon: '🔀'
-    }
-  ];
+      icon: '🔀',
+    },
+  ]
 
   const difficulties: { id: Difficulty; label: string; color: string }[] = [
     { id: 'easy', label: 'Easy', color: '#4ade80' },
     { id: 'medium', label: 'Medium', color: '#facc15' },
-    { id: 'hard', label: 'Hard', color: '#f87171' }
-  ];
+    { id: 'hard', label: 'Hard', color: '#f87171' },
+  ]
 
   const getDifficultyColor = (id: Difficulty) => {
     switch (id) {
       case 'easy':
-        return 'border-green-400 text-green-400 hover:bg-green-400';
+        return 'border-green-400 text-green-400 hover:bg-green-400'
       case 'medium':
-        return 'border-yellow-400 text-yellow-400 hover:bg-yellow-400';
+        return 'border-yellow-400 text-yellow-400 hover:bg-yellow-400'
       case 'hard':
-        return 'border-red-400 text-red-400 hover:bg-red-400';
+        return 'border-red-400 text-red-400 hover:bg-red-400'
     }
-  };
+  }
 
   return (
     <div className="text-center">
@@ -82,7 +82,10 @@ export default function HomePage() {
             <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
               {mode.title}
             </h3>
-            <p className="text-[0.95rem] mb-6 min-h-[2.5rem]" style={{ color: 'var(--text-secondary)' }}>
+            <p
+              className="text-[0.95rem] mb-6 min-h-[2.5rem]"
+              style={{ color: 'var(--text-secondary)' }}
+            >
               {mode.description}
             </p>
             <div className="flex gap-2 justify-center">
@@ -111,15 +114,15 @@ export default function HomePage() {
           color: 'var(--text-primary)',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = 'var(--hover-bg)';
+          e.currentTarget.style.backgroundColor = 'var(--hover-bg)'
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = 'var(--card-bg)';
+          e.currentTarget.style.backgroundColor = 'var(--card-bg)'
         }}
         onClick={handleViewStats}
       >
         View Statistics
       </button>
     </div>
-  );
+  )
 }

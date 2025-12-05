@@ -1,8 +1,8 @@
-import type { GameMode, Difficulty } from '../types';
+import type { GameMode, Difficulty } from '../types'
 
 interface ModeSelectionProps {
-  onSelectMode: (mode: GameMode, difficulty: Difficulty) => void;
-  onViewStats: () => void;
+  onSelectMode: (mode: GameMode, difficulty: Difficulty) => void
+  onViewStats: () => void
 }
 
 export default function ModeSelection({ onSelectMode, onViewStats }: ModeSelectionProps) {
@@ -11,37 +11,37 @@ export default function ModeSelection({ onSelectMode, onViewStats }: ModeSelecti
       id: 'spelling' as GameMode,
       title: 'Word Spelling',
       description: 'Guess the hidden word letter by letter',
-      icon: '🔤'
+      icon: '🔤',
     },
     {
       id: 'definition' as GameMode,
       title: 'Definition Match',
       description: 'Match words with their correct definitions',
-      icon: '📚'
+      icon: '📚',
     },
     {
       id: 'fillblank' as GameMode,
       title: 'Fill in the Blank',
       description: 'Complete sentences with the right word',
-      icon: '✏️'
+      icon: '✏️',
     },
     {
       id: 'anagram' as GameMode,
       title: 'Anagram Solver',
       description: 'Unscramble letters to form words',
-      icon: '🔀'
-    }
-  ];
+      icon: '🔀',
+    },
+  ]
 
   const difficulties: { id: Difficulty; label: string; color: string }[] = [
     { id: 'easy', label: 'Easy', color: '#4ade80' },
     { id: 'medium', label: 'Medium', color: '#facc15' },
-    { id: 'hard', label: 'Hard', color: '#f87171' }
-  ];
+    { id: 'hard', label: 'Hard', color: '#f87171' },
+  ]
 
   const handleModeSelect = (mode: GameMode, difficulty: Difficulty) => {
-    onSelectMode(mode, difficulty);
-  };
+    onSelectMode(mode, difficulty)
+  }
 
   return (
     <div className="mode-selection">
@@ -74,5 +74,5 @@ export default function ModeSelection({ onSelectMode, onViewStats }: ModeSelecti
         View Statistics
       </button>
     </div>
-  );
+  )
 }

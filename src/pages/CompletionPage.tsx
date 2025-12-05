@@ -1,42 +1,42 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { useGame } from '../context/GameContext';
-import type { GameMode, Difficulty } from '../types';
+import { useNavigate, useParams } from 'react-router-dom'
+import { useGame } from '../context/GameContext'
+import type { GameMode, Difficulty } from '../types'
 
 export default function CompletionPage() {
-  const navigate = useNavigate();
-  const { mode, difficulty } = useParams<{ mode: GameMode; difficulty: Difficulty }>();
-  const { score, correctHistory, resetGame } = useGame();
+  const navigate = useNavigate()
+  const { mode, difficulty } = useParams<{ mode: GameMode; difficulty: Difficulty }>()
+  const { score, correctHistory, resetGame } = useGame()
 
   const handleBackToMenu = () => {
-    resetGame();
-    navigate('/');
-  };
+    resetGame()
+    navigate('/')
+  }
 
   const handleTryAgain = () => {
-    resetGame();
+    resetGame()
     if (mode && difficulty) {
-      navigate(`/game/${mode}/${difficulty}`);
+      navigate(`/game/${mode}/${difficulty}`)
     }
-  };
+  }
 
   const getModeTitle = () => {
     switch (mode) {
       case 'spelling':
-        return 'Word Spelling';
+        return 'Word Spelling'
       case 'definition':
-        return 'Definition Match';
+        return 'Definition Match'
       case 'fillblank':
-        return 'Fill in the Blank';
+        return 'Fill in the Blank'
       case 'anagram':
-        return 'Anagram Solver';
+        return 'Anagram Solver'
       default:
-        return 'Game';
+        return 'Game'
     }
-  };
+  }
 
   const getDifficultyLabel = () => {
-    return difficulty ? difficulty.charAt(0).toUpperCase() + difficulty.slice(1) : '';
-  };
+    return difficulty ? difficulty.charAt(0).toUpperCase() + difficulty.slice(1) : ''
+  }
 
   return (
     <div>
@@ -57,7 +57,9 @@ export default function CompletionPage() {
               className="border-2 rounded-2xl p-6"
               style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
             >
-              <div className="text-5xl font-extrabold text-primary mb-2">{correctHistory.length}</div>
+              <div className="text-5xl font-extrabold text-primary mb-2">
+                {correctHistory.length}
+              </div>
               <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                 Words Mastered
               </div>
@@ -88,10 +90,10 @@ export default function CompletionPage() {
                 color: 'var(--text-primary)',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--hover-bg)';
+                e.currentTarget.style.backgroundColor = 'var(--hover-bg)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--card-bg)';
+                e.currentTarget.style.backgroundColor = 'var(--card-bg)'
               }}
               onClick={handleBackToMenu}
             >
@@ -105,7 +107,10 @@ export default function CompletionPage() {
             className="border-2 rounded-3xl p-8"
             style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
           >
-            <h3 className="text-center text-3xl font-bold mb-8" style={{ color: 'var(--text-secondary)' }}>
+            <h3
+              className="text-center text-3xl font-bold mb-8"
+              style={{ color: 'var(--text-secondary)' }}
+            >
               Words You Mastered
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -115,7 +120,10 @@ export default function CompletionPage() {
                   className="bg-primary/10 border border-primary/20 rounded-xl p-5 transition-all duration-200 hover:bg-primary/15 hover:border-primary/30 hover:-translate-y-0.5"
                 >
                   <div className="text-xl font-bold text-primary mb-3 capitalize">{word.word}</div>
-                  <div className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  <div
+                    className="text-sm leading-relaxed"
+                    style={{ color: 'var(--text-secondary)' }}
+                  >
                     {word.definition}
                   </div>
                 </div>
@@ -125,5 +133,5 @@ export default function CompletionPage() {
         )}
       </div>
     </div>
-  );
+  )
 }

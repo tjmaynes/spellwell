@@ -1,72 +1,72 @@
-import { useState, useEffect } from 'react';
-import type { Word, Difficulty } from '../types';
+import { useState, useEffect } from 'react'
+import type { Word, Difficulty } from '../types'
 
 interface AnagramGameProps {
-  word: Word;
-  difficulty: Difficulty;
-  onComplete: (correct: boolean, score: number) => void;
-  onBack: () => void;
+  word: Word
+  difficulty: Difficulty
+  onComplete: (correct: boolean, score: number) => void
+  onBack: () => void
 }
 
 export default function AnagramGame({ word, difficulty, onComplete, onBack }: AnagramGameProps) {
-  const [scrambledLetters, setScrambledLetters] = useState<string[]>([]);
-  const [userAnswer, setUserAnswer] = useState<string[]>([]);
-  const [revealed, setRevealed] = useState(false);
-  const [showHint, setShowHint] = useState(difficulty === 'easy');
+  const [scrambledLetters, setScrambledLetters] = useState<string[]>([])
+  const [userAnswer, setUserAnswer] = useState<string[]>([])
+  const [revealed, setRevealed] = useState(false)
+  const [showHint, setShowHint] = useState(difficulty === 'easy')
 
   useEffect(() => {
-    scrambleWord();
-    setUserAnswer([]);
-    setRevealed(false);
-    setShowHint(difficulty === 'easy');
-  }, [word, difficulty]);
+    scrambleWord()
+    setUserAnswer([])
+    setRevealed(false)
+    setShowHint(difficulty === 'easy')
+  }, [word, difficulty])
 
   const scrambleWord = () => {
-    const letters = word.word.toLowerCase().split('');
-    const shuffled = [...letters].sort(() => Math.random() - 0.5);
-    setScrambledLetters(shuffled);
-  };
+    const letters = word.word.toLowerCase().split('')
+    const shuffled = [...letters].sort(() => Math.random() - 0.5)
+    setScrambledLetters(shuffled)
+  }
 
   const handleLetterClick = (index: number) => {
-    if (revealed) return;
+    if (revealed) return
 
-    const letter = scrambledLetters[index];
-    setUserAnswer([...userAnswer, letter]);
-    setScrambledLetters(scrambledLetters.filter((_, i) => i !== index));
-  };
+    const letter = scrambledLetters[index]
+    setUserAnswer([...userAnswer, letter])
+    setScrambledLetters(scrambledLetters.filter((_, i) => i !== index))
+  }
 
   const handleAnswerClick = (index: number) => {
-    if (revealed) return;
+    if (revealed) return
 
-    const letter = userAnswer[index];
-    setScrambledLetters([...scrambledLetters, letter]);
-    setUserAnswer(userAnswer.filter((_, i) => i !== index));
-  };
+    const letter = userAnswer[index]
+    setScrambledLetters([...scrambledLetters, letter])
+    setUserAnswer(userAnswer.filter((_, i) => i !== index))
+  }
 
   const handleSubmit = () => {
-    if (revealed || userAnswer.length !== word.word.length) return;
+    if (revealed || userAnswer.length !== word.word.length) return
 
-    setRevealed(true);
-    const guessedWord = userAnswer.join('');
-    const correct = guessedWord === word.word.toLowerCase();
-    const score = correct ? 15 : 0;
+    setRevealed(true)
+    const guessedWord = userAnswer.join('')
+    const correct = guessedWord === word.word.toLowerCase()
+    const score = correct ? 15 : 0
 
     setTimeout(() => {
-      onComplete(correct, score);
-    }, 1500);
-  };
+      onComplete(correct, score)
+    }, 1500)
+  }
 
   const handleShuffle = () => {
-    if (revealed) return;
-    const shuffled = [...scrambledLetters].sort(() => Math.random() - 0.5);
-    setScrambledLetters(shuffled);
-  };
+    if (revealed) return
+    const shuffled = [...scrambledLetters].sort(() => Math.random() - 0.5)
+    setScrambledLetters(shuffled)
+  }
 
   const handleClear = () => {
-    if (revealed) return;
-    setScrambledLetters([...scrambledLetters, ...userAnswer]);
-    setUserAnswer([]);
-  };
+    if (revealed) return
+    setScrambledLetters([...scrambledLetters, ...userAnswer])
+    setUserAnswer([])
+  }
 
   return (
     <div className="max-w-[800px] mx-auto">
@@ -123,7 +123,9 @@ export default function AnagramGame({ word, difficulty, onComplete, onBack }: An
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-4 text-gray-300 text-center">Available Letters:</h3>
+          <h3 className="text-xl font-semibold mb-4 text-gray-300 text-center">
+            Available Letters:
+          </h3>
           <div className="flex flex-wrap gap-3 justify-center min-h-[5rem] items-center">
             {scrambledLetters.map((letter, index) => (
               <button
@@ -163,11 +165,13 @@ export default function AnagramGame({ word, difficulty, onComplete, onBack }: An
       </div>
 
       {revealed && (
-        <div className={`border-2 rounded-2xl p-8 my-8 text-center animate-in slide-in-from-bottom-5 duration-500 ${
-          userAnswer.join('') === word.word.toLowerCase()
-            ? 'bg-green-400/10 border-green-400'
-            : 'bg-red-400/10 border-red-400'
-        }`}>
+        <div
+          className={`border-2 rounded-2xl p-8 my-8 text-center animate-in slide-in-from-bottom-5 duration-500 ${
+            userAnswer.join('') === word.word.toLowerCase()
+              ? 'bg-green-400/10 border-green-400'
+              : 'bg-red-400/10 border-red-400'
+          }`}
+        >
           {userAnswer.join('') === word.word.toLowerCase() ? (
             <>
               <h3 className="text-4xl font-bold mb-2 text-green-400">Amazing! 🎉</h3>
@@ -176,11 +180,13 @@ export default function AnagramGame({ word, difficulty, onComplete, onBack }: An
           ) : (
             <>
               <h3 className="text-4xl font-bold mb-2 text-red-400">Good try!</h3>
-              <p className="text-xl text-gray-300">The correct word was: <strong>{word.word}</strong></p>
+              <p className="text-xl text-gray-300">
+                The correct word was: <strong>{word.word}</strong>
+              </p>
             </>
           )}
         </div>
       )}
     </div>
-  );
+  )
 }

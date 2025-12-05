@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import type { Word } from '../types';
+import { useState } from 'react'
+import type { Word } from '../types'
 
 interface HistoryPanelProps {
-  correctHistory: Word[];
+  correctHistory: Word[]
 }
 
 export default function HistoryPanel({ correctHistory }: HistoryPanelProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false)
 
   if (correctHistory.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -18,7 +18,10 @@ export default function HistoryPanel({ correctHistory }: HistoryPanelProps) {
         className="w-full px-6 py-5 bg-transparent border-none text-white text-lg font-semibold cursor-pointer flex items-center gap-3 transition-all duration-200 hover:bg-white/5"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <span className="text-sm transition-transform duration-200" style={{ transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)' }}>
+        <span
+          className="text-sm transition-transform duration-200"
+          style={{ transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)' }}
+        >
           {isExpanded ? '▼' : '▶'}
         </span>
         Correct Answers ({correctHistory.length})
@@ -38,5 +41,5 @@ export default function HistoryPanel({ correctHistory }: HistoryPanelProps) {
         </div>
       )}
     </div>
-  );
+  )
 }

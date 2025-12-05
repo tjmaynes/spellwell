@@ -1,7 +1,7 @@
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../context/ThemeContext'
 
 export default function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme()
 
   return (
     <button
@@ -12,5 +12,5 @@ export default function ThemeToggle() {
     >
       {theme === 'dark' ? '☀️' : '🌙'}
     </button>
-  );
+  )
 }

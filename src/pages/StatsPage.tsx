@@ -1,12 +1,12 @@
-import { useNavigate } from 'react-router-dom';
-import StatisticsView from '../components/StatisticsView';
+import { useNavigate } from 'react-router-dom'
+import StatisticsView from '../components/StatisticsView'
 
 export default function StatsPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleBack = () => {
-    navigate('/');
-  };
+    navigate('/')
+  }
 
-  return <StatisticsView onBack={handleBack} />;
+  return <StatisticsView onBack={handleBack} />
 }
