@@ -17,10 +17,12 @@ A modern, interactive vocabulary learning application that helps users improve t
 - **Medium** - Moderate challenge with optional hints
 - **Hard** - No hints, test your vocabulary mastery
 
-### 🌓 Theme Support
+### 🌓 Accessible Theme Support
 
 - **Dark Mode** - Easy on the eyes with a beautiful purple gradient
-- **Light Mode** - Clean and bright interface
+- **Light Mode** - Clean, bright interface with WCAG AA compliant contrast
+- **WCAG Accessible** - All colors meet 4.5:1 contrast ratio minimum
+- **Color-blind Friendly** - Semantic color system that works for all users
 - Toggle seamlessly between themes with persistent preferences
 
 ### 📊 Progress Tracking
@@ -35,7 +37,8 @@ A modern, interactive vocabulary learning application that helps users improve t
 - Smooth animations and transitions
 - Responsive design for all devices
 - Beautiful gradient effects and color schemes
-- Intuitive navigation with React Router
+- Intuitive navigation with Astro's routing
+- Accessible design with semantic HTML and ARIA labels
 
 ## 🚀 Getting Started
 
@@ -69,22 +72,23 @@ A modern, interactive vocabulary learning application that helps users improve t
    ```
 
 4. **Open your browser**
-   Navigate to `http://localhost:5173`
+   Navigate to `http://localhost:4321`
 
 ## 🛠️ Tech Stack
 
 ### Core
 
+- **Astro 5** - Modern web framework for content-driven sites
 - **React 19** - UI framework with latest features
 - **TypeScript** - Type-safe development
-- **Vite 7** - Fast build tool and dev server
-- **React Router 7** - Client-side routing
+- **Cloudflare Pages** - Edge deployment with SSR support
 
 ### Styling
 
 - **Tailwind CSS 4** - Utility-first CSS framework
-- **CSS Variables** - Dynamic theming support
+- **CSS Variables** - Dynamic theming with WCAG-compliant colors
 - **Custom Gradients** - Beautiful purple-themed design
+- **Accessible Themes** - Light and dark modes with proper contrast ratios
 
 ### Code Quality
 
@@ -94,7 +98,8 @@ A modern, interactive vocabulary learning application that helps users improve t
 
 ### State Management
 
-- **React Context** - Theme and game state management
+- **Nanostores** - Lightweight state management (< 1KB)
+- **@nanostores/react** - React integration for stores
 - **LocalStorage** - Persistent theme and statistics
 
 ## 📜 Available Scripts
@@ -147,42 +152,94 @@ pnpm cf:login
 pnpm deploy
 ```
 
+## 🏗️ Architecture
+
+### State Management with Nanostores
+
+SpellWell uses [Nanostores](https://github.com/nanostores/nanostores) for state management, providing:
+
+- **Lightweight** - Less than 1KB bundle size
+- **Framework Agnostic** - Works with React, Vue, Svelte, and vanilla JS
+- **Simple API** - Easy to understand atom-based state
+- **Better Performance** - Only components using specific atoms re-render
+
+**Game State** (`gameStore.ts`)
+- Score tracking
+- Streak management
+- Correct answer history
+- Current game mode
+
+**Theme State** (`themeStore.ts`)
+- Light/dark mode toggle
+- Persistent theme preferences
+- Automatic document attribute updates
+
+### Accessibility First
+
+All components use CSS variables for theming, ensuring:
+
+- **WCAG AA Compliance** - 4.5:1 contrast ratio for normal text
+- **WCAG AAA for Large Text** - 7:1 contrast ratio for headings
+- **Dynamic Theming** - Colors adapt automatically to light/dark mode
+- **Color-blind Friendly** - Semantic color system with proper contrast
+
+### Server-Side Rendering
+
+Built with Astro for optimal performance:
+
+- **Static Site Generation** - Pre-rendered pages for fast loading
+- **Islands Architecture** - Interactive React components only where needed
+- **Edge Deployment** - Deployed to Cloudflare Pages for global performance
+- **Zero JavaScript by Default** - Only hydrate interactive components
+
 ## 📁 Project Structure
 
 ```text
 spellwell/
 ├── src/
-│   ├── components/     # React components
-│   │   ├── AnagramGame.tsx
-│   │   ├── DefinitionGame.tsx
-│   │   ├── FillBlankGame.tsx
-│   │   ├── SpellingGame.tsx
+│   ├── components/        # React components
+│   │   ├── games/         # Game components
+│   │   │   ├── AnagramGame.tsx
+│   │   │   ├── DefinitionGame.tsx
+│   │   │   ├── FillBlankGame.tsx
+│   │   │   └── SpellingGame.tsx
+│   │   ├── pages/         # Page components
+│   │   │   ├── HomePage.tsx
+│   │   │   ├── GamePage.tsx
+│   │   │   └── CompletionPage.tsx
 │   │   ├── HistoryPanel.tsx
+│   │   ├── ModeSelection.tsx
 │   │   ├── StatisticsView.tsx
 │   │   └── ThemeToggle.tsx
-│   ├── context/        # React context providers
-│   │   ├── GameContext.tsx
-│   │   └── ThemeContext.tsx
-│   ├── data/           # Word lists and data
+│   ├── stores/            # Nanostore state management
+│   │   ├── gameStore.ts   # Game state (score, streak, history)
+│   │   └── themeStore.ts  # Theme state (light/dark mode)
+│   ├── data/              # Word lists and data
 │   │   └── words.ts
-│   ├── pages/          # Page components
-│   │   ├── HomePage.tsx
-│   │   ├── GamePage.tsx
-│   │   ├── CompletionPage.tsx
-│   │   └── StatsPage.tsx
-│   ├── utils/          # Utility functions
+│   ├── layouts/           # Astro layouts
+│   │   └── MainLayout.astro
+│   ├── pages/             # Astro pages (routes)
+│   │   ├── index.astro    # Home page
+│   │   ├── stats.astro    # Statistics page
+│   │   └── game/
+│   │       └── [mode]/
+│   │           └── [difficulty]/
+│   │               ├── index.astro
+│   │               └── complete.astro
+│   ├── styles/            # Global styles
+│   │   └── global.css     # Theme variables and base styles
+│   ├── utils/             # Utility functions
 │   │   └── statistics.ts
-│   ├── types.ts        # TypeScript types
-│   ├── App.tsx         # Root component
-│   ├── main.tsx        # Entry point
-│   └── index.css       # Global styles
-├── public/             # Static assets
-├── .prettierrc         # Prettier configuration
-├── eslint.config.js    # ESLint configuration
-├── tsconfig.json       # TypeScript configuration
-├── vite.config.ts      # Vite configuration
-├── Justfile            # Task runner commands
-└── package.json        # Dependencies and scripts
+│   └── types.ts           # TypeScript types
+├── public/                # Static assets
+│   └── favicon.svg
+├── .prettierrc            # Prettier configuration
+├── astro.config.mjs       # Astro configuration
+├── eslint.config.js       # ESLint configuration
+├── tsconfig.json          # TypeScript configuration
+├── wrangler.toml          # Cloudflare Workers configuration
+├── Justfile               # Task runner commands
+└── package.json           # Dependencies and scripts
 ```
 
 ## 🎮 How to Play
@@ -235,8 +292,10 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
-- Built with React, TypeScript, and Vite
-- Styled with Tailwind CSS
+- Built with Astro, React 19, and TypeScript
+- State management with Nanostores
+- Styled with Tailwind CSS 4 and accessible CSS variables
+- Deployed on Cloudflare Pages
 - Inspired by word games like Wordle and vocabulary learning apps
 
 ---
