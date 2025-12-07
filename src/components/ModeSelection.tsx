@@ -1,4 +1,4 @@
-import type { GameMode, Difficulty } from '../types'
+import type { GameMode, Difficulty } from '~/types'
 
 interface ModeSelectionProps {
   onSelectMode: (mode: GameMode, difficulty: Difficulty) => void

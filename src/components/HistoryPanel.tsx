@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { Word } from '../types'
+import type { Word } from '~/types'
 
 interface HistoryPanelProps {
   correctHistory: Word[]
@@ -13,9 +13,19 @@ export default function HistoryPanel({ correctHistory }: HistoryPanelProps) {
   }
 
   return (
-    <div className="mt-12 bg-white/5 border-2 border-white/10 rounded-2xl overflow-hidden">
+    <div
+      className="mt-12 border-2 rounded-2xl overflow-hidden"
+      style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+    >
       <button
-        className="w-full px-6 py-5 bg-transparent border-none text-white text-lg font-semibold cursor-pointer flex items-center gap-3 transition-all duration-200 hover:bg-white/5"
+        className="w-full px-6 py-5 bg-transparent border-none text-lg font-semibold cursor-pointer flex items-center gap-3 transition-all duration-200"
+        style={{ color: 'var(--text-primary)' }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = 'var(--hover-bg)'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'transparent'
+        }}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <span
@@ -32,10 +42,19 @@ export default function HistoryPanel({ correctHistory }: HistoryPanelProps) {
           {correctHistory.map((word, index) => (
             <div
               key={index}
-              className="p-4 bg-white/5 rounded-xl mb-3 last:mb-0 transition-all duration-200 hover:bg-white/10"
+              className="p-4 rounded-xl mb-3 last:mb-0 transition-all duration-200"
+              style={{ backgroundColor: 'var(--card-bg)' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--hover-bg)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--card-bg)'
+              }}
             >
               <div className="text-xl font-bold text-primary mb-2 capitalize">{word.word}</div>
-              <div className="text-sm text-gray-400 leading-relaxed">{word.definition}</div>
+              <div className="text-sm leading-relaxed" style={{ color: 'var(--text-tertiary)' }}>
+                {word.definition}
+              </div>
             </div>
           ))}
         </div>

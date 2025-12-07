@@ -1,44 +1,56 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import type { GameMode, Difficulty, Word } from '../types'
-import { getRandomWordExcluding } from '../data/words'
-import { updateStatistics } from '../utils/statistics'
-import { useGame } from '../context/GameContext'
-import SpellingGame from '../components/SpellingGame'
-import DefinitionGame from '../components/DefinitionGame'
-import FillBlankGame from '../components/FillBlankGame'
-import AnagramGame from '../components/AnagramGame'
+import { useStore } from '@nanostores/react'
+import type { GameMode, Difficulty, Word } from '~/types'
+import { getRandomWordExcluding } from '~/data/words'
+import { updateStatistics } from '~/utils/statistics'
+import {
+  $score,
+  $streak,
+  $correctHistory,
+  $currentMode,
+  setScore,
+  setStreak,
+  setCorrectHistory,
+  setCurrentMode,
+} from '~/stores/gameStore'
+import SpellingGame from '~/components/games/SpellingGame'
+import DefinitionGame from '~/components/games/DefinitionGame'
+import FillBlankGame from '~/components/games/FillBlankGame'
+import AnagramGame from '~/components/games/AnagramGame'
 
 export default function GamePage() {
-  const { mode, difficulty } = useParams<{ mode: GameMode; difficulty: Difficulty }>()
-  const navigate = useNavigate()
-  const {
-    score,
-    streak,
-    correctHistory,
-    currentMode,
-    setScore,
-    setStreak,
-    setCorrectHistory,
-    setCurrentMode,
-  } = useGame()
+  const [mode, setMode] = useState<GameMode | null>(null)
+  const [difficulty, setDifficulty] = useState<Difficulty | null>(null)
+  const score = useStore($score)
+  const streak = useStore($streak)
+  const correctHistory = useStore($correctHistory)
+  const currentMode = useStore($currentMode)
 
   const [currentWord, setCurrentWord] = useState<Word | null>(null)
 
   useEffect(() => {
-    if (!mode || !difficulty) {
-      navigate('/')
+    // Extract route params from URL
+    const pathname = window.location.pathname
+    const parts = pathname.split('/')
+    const urlMode = parts[2] as GameMode
+    const urlDifficulty = parts[3] as Difficulty
+
+    setMode(urlMode)
+    setDifficulty(urlDifficulty)
+
+    if (!urlMode || !urlDifficulty) {
+      window.location.href = '/'
       return
     }
 
-    if (mode !== currentMode) {
-      setCurrentMode(mode as GameMode)
+    if (urlMode !== currentMode) {
+      setCurrentMode(urlMode)
       setCorrectHistory([])
     }
 
-    const word = getRandomWordExcluding(difficulty as Difficulty, correctHistory)
+    const word = getRandomWordExcluding(urlDifficulty, correctHistory)
     setCurrentWord(word)
-  }, [mode, difficulty, currentMode, setCurrentMode, setCorrectHistory, correctHistory, navigate])
+  }, [currentMode, setCurrentMode, setCorrectHistory, correctHistory])
 
   const handleGameComplete = (correct: boolean, points: number) => {
     if (!currentWord || !difficulty || !mode) return
@@ -59,7 +71,7 @@ export default function GamePage() {
     )
 
     if (correct) {
-      setCorrectHistory((prev) => [...prev, currentWord])
+      setCorrectHistory([...correctHistory, currentWord])
     }
 
     setTimeout(() => {
@@ -70,13 +82,13 @@ export default function GamePage() {
         setCurrentWord(nextWord)
       } else {
         // Navigate to completion page
-        navigate(`/game/${mode}/${difficulty}/complete`)
+        window.location.href = `/game/${mode}/${difficulty}/complete`
       }
     }, 100)
   }
 
   const handleBackToMenu = () => {
-    navigate('/')
+    window.location.href = '/'
   }
 
   if (!currentWord) {

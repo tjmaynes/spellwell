@@ -1,0 +1,8 @@
+---
+import MainLayout from '~/layouts/MainLayout.astro'
+import HomePage from '~/components/pages/HomePage'
+---
+
+<MainLayout title="SpellWell - Choose Your Game">
+  <HomePage client:only="react" />
+</MainLayout>

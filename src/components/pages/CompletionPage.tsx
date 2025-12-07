@@ -1,21 +1,31 @@
-import { useNavigate, useParams } from 'react-router-dom'
-import { useGame } from '../context/GameContext'
-import type { GameMode, Difficulty } from '../types'
+import { useEffect, useState } from 'react'
+import { useStore } from '@nanostores/react'
+import type { GameMode, Difficulty } from '~/types'
+import { $score, $correctHistory, resetGame } from '~/stores/gameStore'
 
 export default function CompletionPage() {
-  const navigate = useNavigate()
-  const { mode, difficulty } = useParams<{ mode: GameMode; difficulty: Difficulty }>()
-  const { score, correctHistory, resetGame } = useGame()
+  const score = useStore($score)
+  const correctHistory = useStore($correctHistory)
+  const [mode, setMode] = useState<GameMode | null>(null)
+  const [difficulty, setDifficulty] = useState<Difficulty | null>(null)
+
+  useEffect(() => {
+    // Extract route params from URL
+    const pathname = window.location.pathname
+    const parts = pathname.split('/')
+    setMode(parts[2] as GameMode)
+    setDifficulty(parts[3] as Difficulty)
+  }, [])
 
   const handleBackToMenu = () => {
     resetGame()
-    navigate('/')
+    window.location.href = '/'
   }
 
   const handleTryAgain = () => {
     resetGame()
     if (mode && difficulty) {
-      navigate(`/game/${mode}/${difficulty}`)
+      window.location.href = `/game/${mode}/${difficulty}`
     }
   }
 

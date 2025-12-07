@@ -128,6 +128,23 @@ just typecheck    # Run TypeScript type checking
 just validate     # Full validation (typecheck + format + lint)
 just clean        # Remove build artifacts
 just reinstall    # Clean reinstall dependencies
+just deploy       # Deploy to Cloudflare Pages
+```
+
+## 🚀 Deployment
+
+SpellWell can be deployed to Cloudflare Pages for free hosting with unlimited bandwidth.
+
+See **[DEPLOYMENT.md](DEPLOYMENT.md)** for detailed deployment instructions.
+
+Quick deployment:
+
+```bash
+# Login to Cloudflare
+pnpm cf:login
+
+# Build and deploy
+pnpm deploy
 ```
 
 ## 📁 Project Structure

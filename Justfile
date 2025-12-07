@@ -71,3 +71,7 @@ validate:
 
 # Build and preview the production build
 build-preview: build preview
+
+# Deploy to Cloudflare Pages
+deploy:
+  pnpm cf:deploy

@@ -1,4 +1,4 @@
-import type { Statistics, Difficulty, GameMode } from '../types'
+import type { Statistics, Difficulty, GameMode } from '~/types'
 
 const STORAGE_KEY = 'spellwell-statistics'
 

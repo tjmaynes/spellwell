@@ -1,0 +1,19 @@
+name = "spellwell"
+main = "dist/_worker.js/index.js"
+compatibility_date = "2025-08-16"
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+
+[build]
+command = "pnpm build"
+
+[assets]
+# Serve the built client as static assets
+directory = "./dist"
+binding = "ASSETS"
+
+[env.production]
+name = "spellwell"
+
+[[routes]]
+pattern = "spellwell.tjmaynes.com"
+custom_domain = true

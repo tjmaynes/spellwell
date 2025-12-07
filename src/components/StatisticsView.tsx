@@ -1,5 +1,5 @@
-import type { Statistics } from '../types'
-import { getStatistics, resetStatistics } from '../utils/statistics'
+import type { Statistics } from '~/types'
+import { getStatistics, resetStatistics } from '~/utils/statistics'
 import { useState, useEffect } from 'react'
 
 interface StatisticsViewProps {

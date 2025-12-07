@@ -1,18 +1,15 @@
-import { useNavigate } from 'react-router-dom'
-import type { GameMode, Difficulty } from '../types'
-import { useGame } from '../context/GameContext'
+import type { GameMode, Difficulty } from '~/types'
+import { resetGame } from '~/stores/gameStore'
 
 export default function HomePage() {
-  const navigate = useNavigate()
-  const { resetGame } = useGame()
 
   const handleModeSelect = (mode: GameMode, difficulty: Difficulty) => {
     resetGame()
-    navigate(`/game/${mode}/${difficulty}`)
+    window.location.href = `/game/${mode}/${difficulty}`
   }
 
   const handleViewStats = () => {
-    navigate('/stats')
+    window.location.href = '/stats'
   }
 
   const modes = [
@@ -42,20 +39,20 @@ export default function HomePage() {
     },
   ]
 
-  const difficulties: { id: Difficulty; label: string; color: string }[] = [
-    { id: 'easy', label: 'Easy', color: '#4ade80' },
-    { id: 'medium', label: 'Medium', color: '#facc15' },
-    { id: 'hard', label: 'Hard', color: '#f87171' },
+  const difficulties: { id: Difficulty; label: string }[] = [
+    { id: 'easy', label: 'Easy' },
+    { id: 'medium', label: 'Medium' },
+    { id: 'hard', label: 'Hard' },
   ]
 
-  const getDifficultyColor = (id: Difficulty) => {
+  const getDifficultyStyles = (id: Difficulty) => {
     switch (id) {
       case 'easy':
-        return 'border-green-400 text-green-400 hover:bg-green-400'
+        return { borderColor: 'var(--success-color)', color: 'var(--success-color)' }
       case 'medium':
-        return 'border-yellow-400 text-yellow-400 hover:bg-yellow-400'
+        return { borderColor: 'var(--warning-color)', color: 'var(--warning-color)' }
       case 'hard':
-        return 'border-red-400 text-red-400 hover:bg-red-400'
+        return { borderColor: 'var(--error-color)', color: 'var(--error-color)' }
     }
   }
 
@@ -92,10 +89,21 @@ export default function HomePage() {
               {difficulties.map((diff) => (
                 <button
                   key={diff.id}
-                  className={`flex-1 px-4 py-2.5 border-2 rounded-lg font-semibold transition-all duration-200 hover:scale-105 ${getDifficultyColor(
-                    diff.id
-                  )}`}
-                  style={{ backgroundColor: 'var(--card-bg)' }}
+                  className="flex-1 px-4 py-2.5 border-2 rounded-lg font-semibold transition-all duration-200 hover:scale-105"
+                  style={{
+                    backgroundColor: 'var(--card-bg)',
+                    ...getDifficultyStyles(diff.id),
+                  }}
+                  onMouseEnter={(e) => {
+                    const styles = getDifficultyStyles(diff.id)
+                    e.currentTarget.style.backgroundColor = styles.borderColor
+                    e.currentTarget.style.color = '#ffffff'
+                  }}
+                  onMouseLeave={(e) => {
+                    const styles = getDifficultyStyles(diff.id)
+                    e.currentTarget.style.backgroundColor = 'var(--card-bg)'
+                    e.currentTarget.style.color = styles.color
+                  }}
                   onClick={() => handleModeSelect(mode.id, diff.id)}
                 >
                   {diff.label}

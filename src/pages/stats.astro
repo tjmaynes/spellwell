@@ -1,0 +1,8 @@
+---
+import MainLayout from '~/layouts/MainLayout.astro'
+import StatsPage from '~/components/pages/StatsPage'
+---
+
+<MainLayout title="SpellWell - Statistics">
+  <StatsPage client:only="react" />
+</MainLayout>
