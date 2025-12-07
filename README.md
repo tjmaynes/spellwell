@@ -1,6 +1,6 @@
 # 📚 SpellWell
 
-A modern, interactive vocabulary learning application that helps users improve their spelling and word knowledge through engaging games and challenges.
+> A modern, interactive vocabulary learning application that helps users improve their spelling and word knowledge through engaging games and challenges.
 
 ## ✨ Features
 
@@ -140,8 +140,6 @@ just deploy       # Deploy to Cloudflare Pages
 
 SpellWell can be deployed to Cloudflare Pages for free hosting with unlimited bandwidth.
 
-See **[DEPLOYMENT.md](DEPLOYMENT.md)** for detailed deployment instructions.
-
 Quick deployment:
 
 ```bash
@@ -164,12 +162,14 @@ SpellWell uses [Nanostores](https://github.com/nanostores/nanostores) for state 
 - **Better Performance** - Only components using specific atoms re-render
 
 **Game State** (`gameStore.ts`)
+
 - Score tracking
 - Streak management
 - Correct answer history
 - Current game mode
 
 **Theme State** (`themeStore.ts`)
+
 - Light/dark mode toggle
 - Persistent theme preferences
 - Automatic document attribute updates
