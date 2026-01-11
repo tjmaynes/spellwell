@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <!-- Colors -->
+  <!-- dark teal outline / text -->
+  <defs>
+    <style type="text/css"><![CDATA[
+      .outline { fill: #0f5250; }
+      .cream { fill: #FFE8C9; }
+      .orange { fill: #FF6A3D; }
+      .tile { fill: #FFF1D9; stroke: #0f5250; stroke-width: 18; }
+      .tile-letter { font-family: "Segoe UI", Roboto, Arial, sans-serif; font-weight: 700; font-size: 84px; fill: #0f5250; }
+      .brand { font-family: "Poppins", "Helvetica Neue", Arial, sans-serif; font-size: 160px; font-weight: 700; fill: #0f5250; letter-spacing: -4px; }
+      .cheek { fill: #FFD2A6; }
+      .eye { fill: #0f5250; }
+      .smile { fill: none; stroke: #0f5250; stroke-width: 14; stroke-linecap: round; stroke-linejoin: round; }
+    ]]></style>
+  </defs>
+
+  <!-- Book body (rounded rectangle styled like open pages) -->
+  <g transform="translate(160,120)">
+    <!-- left page shadow -->
+    <path d="M180 420 C 120 420 40 380 40 300 L 40 120 C 40 80 70 40 110 40 L 540 40 C 580 40 610 80 610 120 L 610 300 C 610 380 530 420 470 420 L 345 420 Z" class="outline" opacity="0.12"/>
+    <!-- page fill -->
+    <path d="M200 420 C 140 420 60 380 60 300 L 60 120 C 60 86 82 64 106 64 L 544 64 C 568 64 590 86 590 120 L 590 300 C 590 380 510 420 450 420 L 345 420 Z" class="cream" stroke="#0f5250" stroke-width="18" stroke-linejoin="round"/>
+
+    <!-- book bottom crease -->
+    <path d="M156 420 Q 345 480 534 420" fill="none" stroke="#0f5250" stroke-width="18" stroke-linecap="round"/>
+
+    <!-- cap: orange baseball cap -->
+    <g transform="translate(260,-20)">
+      <path d="M60 120 C 140 0 380 0 460 120 C 380 110 140 110 60 120 Z" class="orange" stroke="#0f5250" stroke-width="16" stroke-linejoin="round"/>
+      <path d="M100 140 C 220 140 340 140 420 140 C 380 200 160 200 100 140 Z" class="outline" opacity="0.06"/>
+      <!-- cap bill -->
+      <path d="M420 140 C 360 170 200 170 120 140 C 170 170 330 190 420 140 Z" class="orange" stroke="#0f5250" stroke-width="14" stroke-linejoin="round"/>
+    </g>
+
+    <!-- Face (eyes, cheeks, smile) -->
+    <g transform="translate(160,160)">
+      <!-- Eyes -->
+      <ellipse cx="160" cy="210" rx="28" ry="38" class="eye"/>
+      <ellipse cx="360" cy="210" rx="28" ry="38" class="eye"/>
+      <!-- cheeks -->
+      <circle cx="120" cy="260" r="22" class="cheek"/>
+      <circle cx="400" cy="260" r="22" class="cheek"/>
+      <!-- smile -->
+      <path d="M170 320 Q 260 380 350 320" class="smile"/>
+    </g>
+  </g>
+
+  <!-- Letter tiles ABC to the right -->
+  <g transform="translate(700,260)">
+    <g transform="rotate(8)">
+      <rect x="18" y="-6" width="160" height="160" rx="22" ry="22" class="tile"/>
+      <text x="98" y="120" text-anchor="middle" dominant-baseline="middle" class="tile-letter">A</text>
+    </g>
+    <g transform="translate(98,118) rotate(-6)">
+      <rect x="18" y="-6" width="160" height="160" rx="22" ry="22" class="tile"/>
+      <text x="98" y="120" text-anchor="middle" dominant-baseline="middle" class="tile-letter">B</text>
+    </g>
+    <g transform="translate(196,236) rotate(10)">
+      <rect x="18" y="-6" width="160" height="160" rx="22" ry="22" class="tile"/>
+      <text x="98" y="120" text-anchor="middle" dominant-baseline="middle" class="tile-letter">C</text>
+    </g>
+  </g>
+
+  <!-- Brand name -->
+  <text x="600" y="980" text-anchor="middle" class="brand">spellwell</text>
+
+  <!-- optional subtle shadow under overall mark -->
+  <ellipse cx="600" cy="1040" rx="300" ry="28" fill="#000" opacity="0.06"/>
+</svg>
